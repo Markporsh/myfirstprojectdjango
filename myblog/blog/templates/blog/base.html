@@ -1,0 +1,57 @@
+{% load blog_tags %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{title}}</title>
+    <link rel="shortcut icon" href="{% static 'blog/image/infinity.svg' %}" type="image/x-svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+{% block main_menu %}
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+{% block mainmenu %}
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+{% for m in menu %}
+          <li><a href="{% url m.url_name %}" class="nav-link px-3 text-white">{{m.title}}</a></li>
+{% endfor %}
+        </ul>
+{% endblock mainmenu %}
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <input type="search" class="form-control form-control-dark text-white bg-dark" placeholder="Search..." aria-label="Search">
+        </form>
+            {% if request.user.is_authenticated %}
+              <div class="dropdown">
+                  <a class="btn btn-secondary dropdown-toggle" href='{% url 'home' %}'
+                  role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{user.username}}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                  </ul>
+                  <button class="btn btn-sm btn-outline-secondary" type="button"><a href="{% url 'logout' %}">Logout</a></button>
+              </div>
+            {% else %}
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2"><a href="{% url 'login' %}">Login</a></button>
+          <button type="button" class="btn btn-warning"><a href="{% url 'register' %}">Sign-up</a></button>
+        </div>
+            {% endif %}
+      </div>
+    </div>
+  </header>
+{% endblock main_menu %}
+{% block content %}{% endblock %}
+</body>
+</html>

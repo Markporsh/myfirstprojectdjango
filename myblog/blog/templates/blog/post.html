@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+Post
+{% endblock %}
+
+{% block content %}
+<main class="container">
+        <div class="row g-5">
+            <div class="col-md-8">
+                <article class="blog-post">
+                    <h2 class="blog-post-title mb-1">{{ post.title }}</h2>
+                    <blockquote class="blockquote">
+                    <p><a class="p-2 link-secondary" href="{% url 'category' post.cat.slug %}">{{ post.cat }}</a></p>
+                    </blockquote>
+                    <p class="p-2 link-secondary">{{ post.time_create | date:'F d, Y H:i'}} by <a href="#">Mark</a></p>
+                    <p><em>{{ post.content }}</em></p>
+                </article>
+            </div>
+        </div>
+</main>
+
+{% endblock %}

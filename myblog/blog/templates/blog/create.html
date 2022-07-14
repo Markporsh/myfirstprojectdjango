@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+
+<main class="container">
+    <article class="blog-post">
+        <form action="{% url 'create' %}" method="post">
+                {% csrf_token %}
+            <div class="col-sm-6">
+                <label>title</label>
+                {{ form.title }}
+            </div>
+
+            <label class="form-label">Your vanity URL</label>
+            <div class="col-sm-6">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon3">https://mysite/category/</span>
+                  {{ form.slug }}
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+              <label class="form-label">Content</label>
+            {{ form.content }}
+            </div>
+
+            <div class="col-sm-4">
+                <label class="form-label"></label>
+                          {{ form.cat }}
+            </div>
+
+            <div class="form-check">
+                <label class="form-label">Publish</label>
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                {{ form.is_published }}
+            </div>
+                <div class="form-error">{{ form.errors }}</div>
+                <button type="submit">add post</button>
+                    </form>
+{% endblock %}
+
