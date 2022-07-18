@@ -17,4 +17,3 @@ def show_categories(sort=None):
         cats = Category.objects.order_by(sort)
 
     return {'cats': cats}
-

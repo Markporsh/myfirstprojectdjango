@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-{{title}}</title>
+<title>{{title}}</title>
   <link rel="shortcut icon" href="{% static 'blog/image/infinity.svg' %}" type="image/x-svg"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
@@ -15,9 +15,9 @@
       {% for c in cats %}
       {% if c.blog__count > 0 %}
           {% if c.pk == cat_selected %}
-              <font size="5" "FFFF00"><a class="selected">{{c.name}}</a></font>
+              <font size="5"><a class="selected">{{c.name}}</a></font>
           {% else %}
-              <font size="5" "FFFF00"><a class="p-2 link-secondary" href="{{ c.get_absolute_url }}">{{c.name}}</a></font>
+              <font size="5"><a class="p-2 link-secondary" href="{{ c.get_absolute_url }}">{{c.name}}</a></font>
           {% endif %}
       {% endif %}
       {% endfor %}

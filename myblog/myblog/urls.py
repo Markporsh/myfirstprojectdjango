@@ -31,4 +31,6 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('post/<slug:post_slug>/', Showpost.as_view(), name='post'),
     path('category/<slug:cat_slug>/', BlogCategory.as_view(), name='category'),
+    path('search', Search.as_view(), name='search'),
+
 ]

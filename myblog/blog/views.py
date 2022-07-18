@@ -1,17 +1,12 @@
 from django.contrib.auth import logout, login
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseNotFound, Http404
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseNotFound
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from .forms import *
-from .models import *
 from .utils import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
-# Перенести меню в base html ( 6 -7 видос и 15)
 
 
 class BlogHome(DataMixin, ListView):
@@ -42,7 +37,6 @@ class Homepage(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
-
 class Showpost(DataMixin, DetailView):
     model = Blog
     template_name = 'blog/post.html'
@@ -59,12 +53,11 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница не найдена')
 
 
-# Сделать меню, скрытое для незарегестрированных
 def about(request):
     return render(request, 'blog/about.html', {'menu': menu, 'title': 'My resume'})
 
 
-class AddPage(LoginRequiredMixin,DataMixin, CreateView):
+class AddPage(LoginRequiredMixin, DataMixin, CreateView):
     form_class = CreatePostForm
     template_name = 'blog/create.html'
     success_url = reverse_lazy('home')
@@ -129,3 +122,14 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
+
+class Search(ListView):
+    paginate_by = 2
+
+    def get_queryset(self):
+        return Showpost.objects.filter(title=self.request.Get.get('q'))
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['q'] = self.request.Get.get('q')
+        return context
